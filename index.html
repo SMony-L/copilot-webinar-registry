@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Copilot Enablement Series</title>
+  <style>
+    :root {
+      --color-bg: #0d1117;
+      --color-surface: #161b22;
+      --color-border: #30363d;
+      --color-text: #e6edf3;
+      --color-text-muted: #8b949e;
+      --color-accent: #58a6ff;
+      --color-accent-emphasis: #1f6feb;
+      --color-green: #3fb950;
+      --color-purple: #bc8cff;
+      --color-orange: #f0883e;
+      --color-pink: #f778ba;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 64px 0 48px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .hero img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--color-text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .hero .host {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    /* Survey banner */
+    .survey-banner {
+      background: linear-gradient(135deg, var(--color-accent-emphasis), #8b5cf6);
+      border-radius: 12px;
+      padding: 20px 28px;
+      margin: 32px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .survey-banner p {
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .survey-banner a {
+      background: #fff;
+      color: var(--color-accent-emphasis);
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .survey-banner a:hover { opacity: 0.9; }
+
+    /* Session cards */
+    .sessions { padding: 40px 0 64px; }
+    .sessions > h2 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      color: var(--color-text-muted);
+      font-weight: 400;
+    }
+
+    .session-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .session-card .card-header {
+      padding: 24px 28px 16px;
+    }
+    .session-card .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .badge-getting-started { background: rgba(63, 185, 80, 0.15); color: var(--color-green); }
+    .badge-level-up { background: rgba(188, 140, 255, 0.15); color: var(--color-purple); }
+    .badge-office-hours { background: rgba(240, 136, 62, 0.15); color: var(--color-orange); }
+    .badge-release { background: rgba(247, 120, 186, 0.15); color: var(--color-pink); }
+
+    .session-card h3 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .session-card .subtitle {
+      color: var(--color-text-muted);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    .session-card .description {
+      color: var(--color-text-muted);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    .session-card ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+    .session-card li {
+      color: var(--color-text-muted);
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .dates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      padding: 16px 28px 24px;
+      border-top: 1px solid var(--color-border);
+    }
+    .date-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+    }
+    .date-item .date-label {
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+    .date-item a {
+      display: inline-block;
+      background: var(--color-accent-emphasis);
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .date-item a:hover { background: #388bfd; }
+    .date-item a.coming-soon {
+      background: var(--color-border);
+      color: var(--color-text-muted);
+      cursor: default;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 13px;
+    }
+    footer a { color: var(--color-accent); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 26px; }
+      .dates-grid { grid-template-columns: 1fr; }
+      .survey-banner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Hero -->
+  <div class="hero">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" fill="#8b949e"/>
+    </svg>
+    <h1>Copilot Enablement Series</h1>
+    <p>A structured webinar series designed to meet teams at their current stage of maturity — from foundational workflows to advanced.</p>
+    <p class="host">Hosted by your Customer Success Architects at GitHub</p>
+  </div>
+
+  <!-- Survey Banner -->
+  <div class="survey-banner">
+    <p>📋 Help us tailor the sessions — take our 2-minute pre-series survey!</p>
+    <a href="https://forms.office.com/r/G2qnrUPYTB" target="_blank">Take the Survey →</a>
+  </div>
+
+  <!-- Sessions -->
+  <div class="sessions">
+    <h2>Upcoming Sessions</h2>
+
+    <!-- Getting Started -->
+    <div class="session-card">
+      <div class="card-header">
+        <span class="badge badge-getting-started">Getting Started</span>
+        <h3>Getting Started with GitHub Copilot</h3>
+        <p class="subtitle">Foundations for High-Impact Development</p>
+        <p class="description">Designed for engineers looking to integrate Copilot into daily development workflows with confidence. This session focuses on practical, repeatable workflows that improve productivity and code quality.</p>
+        <ul>
+          <li>Core Copilot workflows (Inline, Chat, contextual prompting)</li>
+          <li>Writing effective prompts for better output</li>
+          <li>Refactoring, debugging, and test generation techniques</li>
+          <li>Live demos using real-world engineering scenarios</li>
+        </ul>
+      </div>
+      <div class="dates-grid">
+        <div class="date-item">
+          <span class="date-label">📅 March 9, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 March 13, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 March 23, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 March 27, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Level Up -->
+    <div class="session-card">
+      <div class="card-header">
+        <span class="badge badge-level-up">Advanced</span>
+        <h3>Level Up with GitHub Copilot</h3>
+        <p class="subtitle">Agents, Customization &amp; Advanced Workflows</p>
+        <p class="description">For active Copilot users ready to move beyond basic usage and unlock advanced capabilities.</p>
+        <ul>
+          <li>Agent Mode</li>
+          <li>Copilot Code Review (CCR) &amp; Coding Agent (CCA)</li>
+          <li>Customizing workflows for your team</li>
+          <li>Agentic development patterns</li>
+          <li>AI-assisted code review collaboration</li>
+        </ul>
+      </div>
+      <div class="dates-grid">
+        <div class="date-item">
+          <span class="date-label">📅 March 16, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 March 20, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 March 30, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 April 3, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Office Hours -->
+    <div class="session-card">
+      <div class="card-header">
+        <span class="badge badge-office-hours">Office Hours</span>
+        <h3>Copilot Office Hours</h3>
+        <p class="subtitle">Open Q&amp;A + Deep Technical Discussion</p>
+        <p class="description">An interactive session with your Customer Success Architect.</p>
+        <ul>
+          <li>Any topic — bring your questions</li>
+          <li>Advanced questions &amp; workflow troubleshooting</li>
+          <li>Governance scenarios</li>
+          <li>Real-world implementation challenges</li>
+        </ul>
+      </div>
+      <div class="dates-grid">
+        <div class="date-item">
+          <span class="date-label">📅 March 11, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 March 25, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Release Updates -->
+    <div class="session-card">
+      <div class="card-header">
+        <span class="badge badge-release">Release Updates</span>
+        <h3>Product Release Updates</h3>
+        <p class="subtitle">What Changed, Why It Matters, How to Use It</p>
+        <p class="description">Stay current with the latest from GitHub Copilot.</p>
+        <ul>
+          <li>New Copilot capabilities</li>
+          <li>Agent Mode enhancements</li>
+          <li>Copilot Code Review (CCR) updates</li>
+          <li>CLI &amp; SDK improvements</li>
+          <li>Copilot policy changes</li>
+          <li>Model updates</li>
+        </ul>
+      </div>
+      <div class="dates-grid">
+        <div class="date-item">
+          <span class="date-label">📅 March 12, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+        <div class="date-item">
+          <span class="date-label">📅 March 26, 2026 · 1:00 PM EST</span>
+          <a href="#" class="coming-soon">Link Coming Soon</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>© 2025 GitHub, Inc. All rights reserved. · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">Privacy</a> · <a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service">Terms</a></p>
+    <p style="margin-top: 8px;">GitHub, Inc. · 88 Colin P Kelly Jr St. · San Francisco, CA 94107</p>
+  </div>
+</footer>
+
+</body>
+</html>
