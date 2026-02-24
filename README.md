@@ -4,7 +4,7 @@ A public-facing GitHub Pages site hosting registration links for the GitHub Copi
 
 ## 🔗 Live Site
 
-[https://smony-l.github.io/copilot-webinar-registry/](https://smony-l.github.io/copilot-webinar-registry/)
+[https://smony-l.github.io/copilot-webinar-registry](https://smony-l.github.io/copilot-webinar-registry)
 
 ## Sessions
 
